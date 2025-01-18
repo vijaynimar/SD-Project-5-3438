@@ -8,7 +8,7 @@ export const getDish=async(req,res)=>{
 
     }catch(err){
 
-        return res.status(500).json({message:"error in get dish"})
+        return res.status(500).json({message:"error in get dish",err:err})
     }
 }
 export const addDish=async(req,res)=>{
