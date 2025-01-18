@@ -64,10 +64,10 @@ const CustomQRScanner = () => {
 
       // Loop through each dish item and fetch its data
       for (const word of itemWords) {
-        const matchedDish = dishesObject.find((dish) => dish["item"] === word);
+        const matchedDish = dishesObject.find((dish) => dish["dish_name"] === word);
         if (matchedDish) {
           foundItems.push(word);
-          caloriesInfo[word] = matchedDish["calorie"];
+          caloriesInfo[word] = matchedDish["calories"];
           if (!firstImageUrl) {
             firstImageUrl = matchedDish["image_url"]; // Store the first available image
           }
@@ -111,7 +111,7 @@ const CustomQRScanner = () => {
 
   return (
     <div className="scanner-container">
-      <h2>Custom QR Scanner</h2>
+      <h2>Scan to Discover! 🔍 Know what’s on your plate!</h2>
       <div id="qr-reader" className="qr-box"></div>
 
       <div className="button-container">

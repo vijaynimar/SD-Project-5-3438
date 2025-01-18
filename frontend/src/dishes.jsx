@@ -1,93 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 import './dishes.css';
 
-const dishes = [
-  {
-    dish_name: 'Idli Vada Combo',
-    category: 'South Indian',
-    main_dish: 'Idli',
-    side_dish: 'Vada',
-    cuisine: 'Indian',
-    calories: 350,
-    description: 'A classic South Indian breakfast combo served with sambar and chutney.',
-    image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Idli_Sambar.JPG/330px-Idli_Sambar.JPG',
-  },
-  {
-    dish_name: 'Chole Bhature',
-    category: 'North Indian',
-    main_dish: 'Bhature',
-    side_dish: 'Chole',
-    cuisine: 'Indian',
-    calories: 600,
-    description: 'A popular North Indian dish with spicy chickpeas and deep-fried bread.',
-    image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Chole_Bhature_At_Local_Street.jpg/450px-Chole_Bhature_At_Local_Street.jpg',
-  },
-  {
-    dish_name: 'Dosa & Upma',
-    category: 'South Indian',
-    main_dish: 'Dosa',
-    side_dish: 'Upma',
-    cuisine: 'Indian',
-    calories: 400,
-    description: 'A crispy dosa served with a side of soft and flavorful upma.',
-    image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Pesarattu.jpg/120px-Pesarattu.jpg',
-  },
-  {
-    dish_name: 'Pav Bhaji',
-    category: 'Street Food',
-    main_dish: 'Pav',
-    side_dish: 'Bhaji',
-    cuisine: 'Indian',
-    calories: 450,
-    description: 'A spicy mashed vegetable curry served with buttered pav.',
-    image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Bambayya_Pav_bhaji.jpg/330px-Bambayya_Pav_bhaji.jpg',
-  },
-  {
-    dish_name: 'Vada Pav',
-    category: 'Street Food',
-    main_dish: 'Vada',
-    side_dish: 'Pav',
-    cuisine: 'Indian',
-    calories: 350,
-    description: 'A spicy mashed potato fritter encased in a soft bread roll, served with chutneys and fried green chilies.',
-    image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Vada_Pav-Indian_street_food.JPG/375px-Vada_Pav-Indian_street_food.JPG',
-  },
-  {
-    dish_name: 'Samosa',
-    category: 'Snack',
-    main_dish: 'Pastry',
-    side_dish: 'Spiced Potato Filling',
-    cuisine: 'Indian',
-    calories: 200,
-    description: 'A deep-fried pastry filled with spiced potatoes and peas, offering a delightful crunch and flavor.',
-    image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Samosa-and-Chatni.jpg/420px-Samosa-and-Chatni.jpg',
-  },
-];
+const API_URL = 'https://sd-project-5-3438.onrender.com/allDish';
 
 function Dishes() {
+  const [dishes, setDishes] = useState([]);
   const [qrData, setQrData] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(3);
+
+  useEffect(() => {
+    fetch(API_URL)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Fetched data:", data); // Debugging
+        if (data && Array.isArray(data.dishes)) {
+          setDishes(data.dishes);
+        } else {
+          console.error("API response does not contain 'dishes' array:", data);
+          setDishes([]); // Ensures it's always an array
+        }
+      })
+      .catch((error) => console.error('Error fetching dishes:', error));
+  }, []);
 
   const handleGenerateQr = (dishName) => {
     setQrData(dishName);
+  };
+
+  const handleSeeMore = () => {
+    setVisibleCount((prevCount) => prevCount + 3);
   };
 
   return (
     <section className="dishes-section">
       <h2>Our Dishes</h2>
       <div className="dishes-grid">
-        {dishes.map((dish) => (
-          <div key={dish.dish_name} className="dish-card">
-            <img src={dish.image_url} alt={dish.dish_name} />
-            <h3>{dish.dish_name}</h3>
-            <p>{dish.description}</p>
-            <button onClick={() => handleGenerateQr(dish.dish_name)}>Generate QR</button>
-            {qrData === dish.dish_name && (
-              <QRCodeCanvas value={dish.dish_name} size={200} level="H" />
-            )}
-          </div>
-        ))}
+        {dishes.length > 0 ? (
+          dishes.slice(0, visibleCount).map((dish) => (
+            <div key={dish._id} className="dish-card">
+              <img src={dish.image_url} alt={dish.dish_name} />
+              <h3>{dish.dish_name}</h3>
+              <p>{dish.description}</p>
+              <button onClick={() => handleGenerateQr(dish.dish_name)}>Generate QR</button>
+              {qrData === dish.dish_name && (
+                <QRCodeCanvas value={dish.dish_name} size={200} level="H" />
+              )}
+            </div>
+          ))
+        ) : (
+          <p>Loading dishes or no data available...</p>
+        )}
       </div>
+      {visibleCount < dishes.length && (
+        <button className="see-more" onClick={handleSeeMore}>See More</button>
+      )}
     </section>
   );
 }
