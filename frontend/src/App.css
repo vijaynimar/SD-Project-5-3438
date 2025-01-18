@@ -1,0 +1,171 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+/* scanner */
+.scanner-container {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 50%;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+/* QR Box */
+.qr-box {
+  width: 50%;
+  margin: 20px auto;
+  border: 2px dashed green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f8f8;
+}
+
+/* Button Container */
+.button-container {
+  margin-top: 10px;
+}
+
+/* Buttons */
+.scan-btn,
+.stop-btn {
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:  0.3s ease;
+}
+
+.stop-btn {
+  background-color: #dc3545;
+}
+
+.scan-btn:hover {
+  background-color: #0056b3;
+}
+
+.stop-btn:hover {
+  background-color: #b52b3b;
+}
+
+/* Scanned Result */
+.scan-result {
+  width: 100%;
+  font-size: 16px;
+  color: #28a745;
+  font-weight: bold;
+}
+/* scanner */
+
+/* App.css */
+
+/* Container for the content */
+.container {
+  display: flex;
+  background-color: black;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Styling for the dish name */
+.dish-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+/* Styling for the calories */
+.calories {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Styling for the image */
+.dish-image {
+  width: 200px;
+  height: auto;
+  max-width: 400px;
+  margin-bottom: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .dish-name {
+    font-size: 1.2rem;
+  }
+
+  .calories {
+    font-size: 1rem;
+  }
+
+  .dish-image {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dish-name {
+    font-size: 1rem;
+  }
+
+  .calories {
+    font-size: 0.9rem;
+  }
+
+  .dish-image {
+    max-width: 250px;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
