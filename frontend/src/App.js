@@ -5,13 +5,14 @@ import Footer from './footer';
 import Dishes from './dishes';
 import QRCodeGenerator from './generateqr';
 import CustomQRScanner from './scanner';
+import SendTextRequest from './sendrequest';
 
 function App() {
   return (
     <div className="App">
       <Header/>
-      <QRCodeGenerator/>
       <CustomQRScanner/>
+      <SendTextRequest/>
       <Dishes/>
       <Footer/>
     </div>

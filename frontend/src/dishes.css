@@ -11,18 +11,38 @@
     padding: 20px;
     background-color: wheat;
   }
-  
+    
   .dish-card {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .dish-card img {
-    width: 100%;
-    height: 60%;
-    border-radius: 8px;
-  }
-  
+    display: flex;
+    flex-wrap: wrap;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  text-align: center;
+}
+
+.dish-card img {
+  width: 100%;
+  height: 50%;
+  border-radius: 8px;
+}
+
+.dish-card button {
+  padding: 5px;
+  margin: auto;
+  color: #fff;
+  border: none;
+  border-radius: 10%;
+  font-weight: 900;
+  background-color: black;
+}
+
+
+.dish-card .qr-code {
+  height: 50px; /* Adjust height as needed */
+  width: auto; /* Keep aspect ratio */
+  display: block;
+  margin: 10px auto; /* Center within card */
+}
+

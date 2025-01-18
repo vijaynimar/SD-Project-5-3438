@@ -92,6 +92,74 @@
 }
 /* scanner */
 
+/* App.css */
+
+/* Container for the content */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Styling for the dish name */
+.dish-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Styling for the calories */
+.calories {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Styling for the image */
+.dish-image {
+  width: 100%;
+  height: auto;
+  max-width: 400px;
+  margin-bottom: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .dish-name {
+    font-size: 1.2rem;
+  }
+
+  .calories {
+    font-size: 1rem;
+  }
+
+  .dish-image {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dish-name {
+    font-size: 1rem;
+  }
+
+  .calories {
+    font-size: 0.9rem;
+  }
+
+  .dish-image {
+    max-width: 250px;
+  }
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
