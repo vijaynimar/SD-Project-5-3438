@@ -1,18 +1,22 @@
 import React, { useState, useRef } from "react";
 import { Html5Qrcode } from "html5-qrcode";
-
+import './scanner.css'
 const CustomQRScanner = () => {
   const [scanning, setScanning] = useState(false);
-  const [result, setResult] = useState("");
-  const [responseMessage, setResponseMessage] = useState(""); // To hold the backend response
-  const [imgUrl, setImgUrl] = useState(""); // To store image URL
-  const [calories,setCalories]=useState("");
+  const [result, setResult] = useState(""); // Stores scanned dish name
+  const [validItems, setValidItems] = useState([]); // Stores only valid dish items
+  const [selectedItems, setSelectedItems] = useState({}); // Stores selected items & their quantities
+  const [caloriesData, setCaloriesData] = useState({}); // Stores calories per item
+  const [imgUrl, setImgUrl] = useState(""); // Stores ONLY ONE image URL
   const qrCodeRef = useRef(null);
 
   const startScanning = () => {
-    setResponseMessage(""); // Clear the response message
-    setImgUrl(""); // Clear the image URL
-    setResult(""); //
+    setResult("");
+    setValidItems([]);
+    setSelectedItems({});
+    setCaloriesData({});
+    setImgUrl(""); // Reset image before new scan
+
     if (!qrCodeRef.current) {
       qrCodeRef.current = new Html5Qrcode("qr-reader");
     }
@@ -25,9 +29,9 @@ const CustomQRScanner = () => {
           qrbox: { width: 250, height: 250 },
         },
         (decodedText) => {
-          setResult(decodedText); // Set the decoded text
-          stopScanning(); // Stop scanning after successful scan
-          sendRequest(decodedText); // Send the decoded text to the backend
+          setResult(decodedText);
+          stopScanning();
+          getCalories(decodedText);
         },
         (errorMessage) => {
           console.log("QR Code scan failed: ", errorMessage);
@@ -45,28 +49,65 @@ const CustomQRScanner = () => {
     }
   };
 
-  // Function to send the decoded QR text to the backend
-  const sendRequest = async (decodedText) => {
+  // ✅ Fetches calorie data & selects only valid items
+  async function getCalories(dish) {
+    const itemWords = dish.split(" "); // Split dish name into individual items
+
     try {
-      const response = await fetch("http://localhost:5000/api/send-text", {
-        method: "POST", // POST request to send data to backend
-        headers: {
-          "Content-Type": "application/json", // Send data as JSON
-        },
-        body: JSON.stringify({ text: decodedText }), // Send the decoded text as JSON
-      });
+      const response = await fetch("https://sd-project-5-3438.onrender.com/allDish");
+      const rdata = await response.json();
+      const dishesObject = rdata["dishes"];
 
-      const data = await response.json(); // Parse the response from backend
-      console.log("Response from backend:", data); // Log the response from backend
+      let caloriesInfo = {};
+      let firstImageUrl = ""; // Store only one image URL
+      let foundItems = [];
 
-      // Update the state with the backend response
-      setResponseMessage(`Dish: ${data.dishname}, Calories: ${data.calories}`);
-      setImgUrl(data.img_url); // Set the image URL from the response
-      setCalories(data.calories);
+      // Loop through each dish item and fetch its data
+      for (const word of itemWords) {
+        const matchedDish = dishesObject.find((dish) => dish["item"] === word);
+        if (matchedDish) {
+          foundItems.push(word);
+          caloriesInfo[word] = matchedDish["calorie"];
+          if (!firstImageUrl) {
+            firstImageUrl = matchedDish["image_url"]; // Store the first available image
+          }
+        }
+      }
+
+      setValidItems(foundItems); // Only store valid items
+      setCaloriesData(caloriesInfo);
+      setImgUrl(firstImageUrl); // Store only one image
     } catch (error) {
-      console.error("Error sending request:", error); // Log errors if any
+      console.error("Error fetching data:", error);
     }
+  }
+
+  // ✅ Handles checkbox selection
+  const handleCheckboxChange = (item) => {
+    setSelectedItems((prev) => {
+      const newSelection = { ...prev };
+      if (newSelection[item]) {
+        delete newSelection[item]; // Remove if unchecked
+      } else {
+        newSelection[item] = 1; // Default quantity to 1
+      }
+      return newSelection;
+    });
   };
+
+  // ✅ Handles quantity change
+  const handleQuantityChange = (item, quantity) => {
+    setSelectedItems((prev) => ({
+      ...prev,
+      [item]: quantity,
+    }));
+  };
+
+  // ✅ Calculate total calories dynamically
+  const totalCalories = Object.entries(selectedItems).reduce(
+    (total, [item, quantity]) => total + (caloriesData[item] || 0) * quantity,
+    0
+  );
 
   return (
     <div className="scanner-container">
@@ -81,14 +122,44 @@ const CustomQRScanner = () => {
         )}
       </div>
 
-      {result && <p className="scan-result">Dish_Name: {result}</p>}
+      {result && <p className="scan-result">Scanned Dish: {result}</p>}
 
-      
-      
-      {/* Display the image if available */}
-      {imgUrl && <img src={imgUrl} alt="Dish" />}
-      {calories && <p>Total_Calories:{calories}</p>}
-      
+      {/* ✅ Display items as checkboxes with quantity dropdowns */}
+      {validItems.length > 0 && (
+        <div>
+          <h3>Select Items</h3>
+          {validItems.map((item) => (
+            <div key={item} className="item-selection">
+              <input
+                type="checkbox"
+                id={item}
+                checked={selectedItems[item] !== undefined}
+                onChange={() => handleCheckboxChange(item)}
+              />
+              <label htmlFor={item}>{item}</label>
+
+              {/* Dropdown for quantity */}
+              {selectedItems[item] !== undefined && (
+                <select
+                  value={selectedItems[item]}
+                  onChange={(e) => handleQuantityChange(item, Number(e.target.value))}
+                >
+                  {[...Array(10).keys()].map((i) => (
+                    <option key={i} value={i}>
+                      {i}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ✅ Display ONLY ONE image */}
+      {imgUrl && <img src={imgUrl} alt="Dish" width="200" />}
+
+      <h3>Total Calories: {totalCalories}</h3>
     </div>
   );
 };

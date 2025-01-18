@@ -65,3 +65,92 @@
     display: block;
   }
   
+  @media (max-width: 1024px) {
+    /* Tablet and Small Laptop Screens */
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+  
+    .nav-links li {
+      margin: 5px 0;
+    }
+    
+    .logo {
+      font-size: 1.6em;
+    }
+  
+    .nav-links a {
+      font-size: 1.1em;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    /* For Mobile Screens */
+    .navbar {
+      flex-direction: column;
+      align-items: center;
+      padding: 15px 10px;
+    }
+  
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+      padding-top: 15px;
+    }
+  
+    .nav-links li {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .nav-links.active {
+      display: flex;
+    }
+  
+    .nav-links a {
+      padding: 12px;
+      font-size: 1.1em;
+    }
+  
+    .logo {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+  
+    /* Hamburger Menu */
+    .hamburger {
+      display: block;
+      cursor: pointer;
+      color: #fff;
+      font-size: 1.5em;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    /* For very small screens (mobile) */
+    .navbar {
+      padding: 10px;
+    }
+  
+    .logo {
+      font-size: 1.4em;
+    }
+  
+    .nav-links a {
+      font-size: 1em;
+    }
+  }
+  
+  /* Optional: Hamburger Menu (Mobile) */
+  .hamburger {
+    display: none;
+  }
+  
+  .hamburger.active {
+    display: block;
+  }
