@@ -1,5 +1,6 @@
 import React from 'react';
 import './makers.css'; // Add styles for this component if needed
+import ritikimg from './imgs/ritik.jpg'
 
 const About = () => {
   return (
@@ -8,7 +9,7 @@ const About = () => {
       <div className="team-members">
         <div className="team-member">
           <img
-            src="https://via.placeholder.com/150"
+            src={ritikimg}
             alt="Member 1"
             className="team-member-img"
           />
