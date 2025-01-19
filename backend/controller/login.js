@@ -14,6 +14,9 @@ export const login =async(req,res)=>{
             const token=jwt.sign({
                 email:email,id:User._id
             },process.env.jwt_key)
+          if(verifies.password!==password){
+            return res.status(404).json({mesaage:"password not match"})
+          }  
             return res.status(200).json({message:"logged in sucessfully",token:token})
         }
         
