@@ -58,7 +58,7 @@ const About = () => {
             alt="Member 4"
             className="team-member-img"
           />
-          <h3></h3>
+          
           <p>Role: </p>
           <p>
             

@@ -26,13 +26,13 @@ function Footer(){
             <div className="footer-section social">
               <h2>Follow Us</h2>
               <div className="social-icons">
-                <a href="javascript:void(0);">
+                <a href="">
                   <img src="facebook-icon.png" alt="Facebook" />
                 </a>
-                <a href="javascript:void(0);">
+                <a href="">
                   <img src="twitter-icon.png" alt="Twitter" />
                 </a>
-                <a href="javascript:void(0);">
+                <a href="">
                   <img src="linkedin-icon.png" alt="LinkedIn" />
                 </a>
               </div>
