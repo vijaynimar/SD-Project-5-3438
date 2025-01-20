@@ -15,6 +15,7 @@ Frontend tools{
 ReactRoute,JavaScript,Css,Html,axios,React-Router-Dom,Html5-QrCode,Navigatio
 }
 
-Main file of frontend url=/frontendmain/src/App.js
+Main file of frontend file directory are present in frontend Branch =/frontendmain/src/App.js 
+I am not merged because of some technical issue please visit to frontend branch to view frontend file
 run command frontend=npm start
 
