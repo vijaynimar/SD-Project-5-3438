@@ -19,17 +19,17 @@ function LoginPage() {
       });
 
       //If login is successful, save the token and navigate to the home page
-      // if (response.data.token) {
-      //   localStorage.setItem("token", response.data.token);
-      //   console.log("data fething")
-      //   console.log("token",response.data.token)
-      //   navigate("/home");  // Redirect to the home page
-      // }
-    navigate("/home");  // Redirect to the home page
-    //   else{
-    //     console.log("data is not there")
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        console.log("data fething")
+        console.log("token",response.data.token)
+        navigate("/home");  // Redirect to the home page
+      }
+    // navigate("/home");  // Redirect to the home page
+      else{
+        console.log("data is not there")
         
-    // }
+    }
     } catch (err) {
       // Handle errors (e.g., incorrect email/password)
       if (err.response) {
